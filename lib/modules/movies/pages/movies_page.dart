@@ -17,15 +17,63 @@ class _MoviesPageState extends State<MoviesPage> {
   }
 
   _success() {
-    return Observer(
-      builder: (_) => Expanded(
-        child: ListView.builder(
-          itemCount: controller.moviesTodo.results!.length,
-          itemBuilder: (context, index) {
-            var todo = controller.moviesTodo.results![index];
-            return Text(todo.title!);
-          },
-        ),
+    return Expanded(
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: controller.moviesTodo.results!.length,
+        itemBuilder: (context, index) {
+          var todo = controller.moviesTodo.results![index];
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: 20,
+                width: 300,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      child: IconButton(
+                        icon: Icon(Icons.favorite_border_outlined),
+                        onPressed: () {},
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 7,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      height: 500,
+                      width: 460,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(6),
+                        child: Image.network(
+                            fit: BoxFit.cover,
+                            'https://image.tmdb.org/t/p/w500${todo.posterPath}'),
+                      ),
+                    ),
+                    Text(
+                      todo.title!,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -55,6 +103,7 @@ class _MoviesPageState extends State<MoviesPage> {
   }
 
   stateManagement(HomeState state) {
+    print(state);
     switch (state) {
       case HomeState.start:
         return _start();
@@ -79,11 +128,27 @@ class _MoviesPageState extends State<MoviesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Filmes em cartaz"),
+        title: const Text('Filmes'),
+        centerTitle: true,
+        actions: [
+          SizedBox(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.favorite_border_outlined),
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          )
+        ],
       ),
       body: Column(
         children: [
-          stateManagement(controller.state),
+          Observer(builder: (_) {
+            return stateManagement(controller.state);
+          })
         ],
       ),
     );

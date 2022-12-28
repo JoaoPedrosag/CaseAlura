@@ -11,7 +11,9 @@ abstract class _MoviesController with Store {
   MoviesImpl response = MoviesImpl();
   MoviesTodo moviesTodo = MoviesTodo(movies: []);
 
+  @observable
   HomeState state = HomeState.start;
+
   Future start() async {
     try {
       state = HomeState.loading;
@@ -19,8 +21,12 @@ abstract class _MoviesController with Store {
       print(moviesTodo);
       state = HomeState.success;
     } catch (e) {
-      state = HomeState.error;
+      changeState(HomeState.error);
     }
+  }
+
+  void changeState(HomeState stateA) {
+    state = stateA;
   }
 }
 
