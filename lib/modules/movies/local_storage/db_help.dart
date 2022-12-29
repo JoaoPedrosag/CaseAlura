@@ -30,7 +30,13 @@ class DB {
   String get _moviesTable => '''
     CREATE TABLE movies(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      idMovie INTEGER
+      idMovie INTEGER, 
+      title TEXT,
+      backdrop_path TEXT,
+      overview TEXT,
+      vote_average TEXT,
+      runtime INTEGER,
+      release_date TEXT
     )
   ''';
 }

@@ -24,9 +24,30 @@ abstract class _DataBaseController with Store {
   }
 
   @action
-  setMovie(int idMovie) async {
+  getAllMovies() async {
     _database = await DB.instance.dataBase;
-    print(idMovie);
-    await _database.insert('movies', {'idMovie': idMovie});
+    List movies = await _database.query('movies');
+    print(movies);
+  }
+
+  @action
+  setMovie(
+      {required int idMovie,
+      required String title,
+      required String backDropPath,
+      required String overview,
+      required String voteAverage,
+      required int runtime,
+      required String releaseDate}) async {
+    _database = await DB.instance.dataBase;
+    await _database.insert('movies', {
+      'idMovie': idMovie,
+      'title': title,
+      'backdrop_path': backDropPath,
+      'overview': overview,
+      'vote_average': voteAverage,
+      'runtime': runtime,
+      'release_date': releaseDate
+    });
   }
 }

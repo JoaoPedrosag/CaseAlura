@@ -69,7 +69,7 @@ class _MoviesPageState extends State<MoviesPage> {
                             isScrollControlled: true,
                             builder: (context) => Observer(
                               builder: (_) => SizedBox(
-                                height: MediaQuery.of(context).size.height * .7,
+                                height: MediaQuery.of(context).size.height * .9,
                                 child: controller.loading
                                     ? const Center(
                                         child: CircularProgressCustom(),
@@ -87,7 +87,7 @@ class _MoviesPageState extends State<MoviesPage> {
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height *
-                                                .7,
+                                                .9,
                                             width: MediaQuery.of(context)
                                                 .size
                                                 .width,
@@ -111,9 +111,27 @@ class _MoviesPageState extends State<MoviesPage> {
                                                           )),
                                                       onPressed: () {
                                                         dataBase.setMovie(
-                                                            controller
+                                                            idMovie: controller
                                                                 .onyMovieModel
-                                                                .id!);
+                                                                .id!,
+                                                            title: controller
+                                                                .onyMovieModel
+                                                                .title!,
+                                                            backDropPath: controller
+                                                                .onyMovieModel
+                                                                .backdropPath!,
+                                                            overview: controller
+                                                                .onyMovieModel
+                                                                .overview!,
+                                                            voteAverage: controller
+                                                                .onyMovieModel
+                                                                .voteAverage!,
+                                                            runtime: controller
+                                                                .onyMovieModel
+                                                                .runtime!,
+                                                            releaseDate: controller
+                                                                .onyMovieModel
+                                                                .releaseDate!);
                                                       },
                                                       color: Colors.yellow,
                                                       width:
@@ -434,7 +452,7 @@ class _MoviesPageState extends State<MoviesPage> {
                   icon: const Icon(Icons.favorite, color: Colors.red),
                   onPressed: () {
                     Modular.to.pushNamed('favorite');
-                    // dataBase.getMovie();
+                    dataBase.getAllMovies();
                   },
                 ),
               ],

@@ -17,12 +17,34 @@ mixin _$DataBaseController on _DataBaseController, Store {
     return _$getMovieAsyncAction.run(() => super.getMovie());
   }
 
+  late final _$getAllMoviesAsyncAction =
+      AsyncAction('_DataBaseController.getAllMovies', context: context);
+
+  @override
+  Future getAllMovies() {
+    return _$getAllMoviesAsyncAction.run(() => super.getAllMovies());
+  }
+
   late final _$setMovieAsyncAction =
       AsyncAction('_DataBaseController.setMovie', context: context);
 
   @override
-  Future setMovie(int idMovie) {
-    return _$setMovieAsyncAction.run(() => super.setMovie(idMovie));
+  Future setMovie(
+      {required int idMovie,
+      required String title,
+      required String backDropPath,
+      required String overview,
+      required String voteAverage,
+      required int runtime,
+      required String releaseDate}) {
+    return _$setMovieAsyncAction.run(() => super.setMovie(
+        idMovie: idMovie,
+        title: title,
+        backDropPath: backDropPath,
+        overview: overview,
+        voteAverage: voteAverage,
+        runtime: runtime,
+        releaseDate: releaseDate));
   }
 
   @override
