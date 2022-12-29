@@ -3,8 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('must search all movies', () async {
+    int page = 1;
     MoviesImpl response = MoviesImpl();
-    final test = await response.getMovies();
+    final test = await response.getMovies(page);
     expect(test.results!.isNotEmpty, true);
   });
 }

@@ -31,10 +31,12 @@ abstract class _MoviesController with Store {
     try {
       state = HomeState.loading;
       moviesTodo = await response.getMovies(page);
+
       state = HomeState.success;
     } catch (e) {
       state = HomeState.error;
     }
+    page++;
   }
 
   Future getMovie(int id) async {

@@ -16,6 +16,9 @@ class _AppWidgetState extends State<AppWidget> {
       routerDelegate: Modular.routerDelegate,
       debugShowCheckedModeBanner: false,
       darkTheme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(color: Colors.black),
+        ),
         useMaterial3: true,
         primaryColor: Colors.black,
         brightness: Brightness.dark,

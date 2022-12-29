@@ -13,7 +13,7 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 15), (() {
+    Future.delayed(const Duration(seconds: 2), (() {
       Modular.to.navigate('/home_movies/');
     }));
     super.initState();
