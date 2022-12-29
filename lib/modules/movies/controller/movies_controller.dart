@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:case_alura/modules/movies/model/movies_model.dart';
+import 'package:case_alura/modules/movies/model/only_movie_model.dart';
 import 'package:case_alura/modules/movies/service/movies_impl.dart';
 import 'package:mobx/mobx.dart';
 
@@ -10,6 +13,16 @@ abstract class _MoviesController with Store {
   final repository = MoviesImpl();
   MoviesImpl response = MoviesImpl();
   MoviesTodo moviesTodo = MoviesTodo(movies: []);
+  OnyMovieModel onyMovieModel = OnyMovieModel(movie: []);
+
+  @observable
+  bool loading = false;
+
+  @observable
+  int page = 1;
+
+  @observable
+  ObservableList<int> favorite = ObservableList<int>();
 
   @observable
   HomeState state = HomeState.start;
@@ -17,16 +30,40 @@ abstract class _MoviesController with Store {
   Future start() async {
     try {
       state = HomeState.loading;
-      moviesTodo = await response.getMovies();
-      print(moviesTodo);
+      moviesTodo = await response.getMovies(page);
       state = HomeState.success;
     } catch (e) {
-      changeState(HomeState.error);
+      state = HomeState.error;
     }
   }
 
-  void changeState(HomeState stateA) {
-    state = stateA;
+  Future getMovie(int id) async {
+    try {
+      setLoading(true);
+      onyMovieModel = await response.getMovie(id);
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+      log(e.toString());
+    }
+  }
+
+  @action
+  void setLoading(bool value) => loading = value;
+
+  @action
+  void addFavorite(int isFavorite) {
+    if (favorite.contains(isFavorite)) {
+      favorite.remove(isFavorite);
+    } else {
+      favorite.add(isFavorite);
+    }
+  }
+
+  @action
+  void nextPage() {
+    page++;
+    response.getMovies(page);
   }
 }
 
