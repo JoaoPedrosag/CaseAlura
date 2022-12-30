@@ -42,34 +42,55 @@ class ModalBottom extends StatelessWidget {
                               height: 10,
                             ),
                             ButtonCustom(
-                              label: const Text('Adicionar aos Favoritos',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                  )),
+                              label: dataBase.ids
+                                      .contains(controller.onlyMovieModel.id!)
+                                  ? const Text('Remover dos Favoritos',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ))
+                                  : const Text('Adicionar aos Favoritos',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w800,
+                                      )),
                               onPressed: () {
-                                dataBase.setMovie(
-                                    idMovie: controller.onyMovieModel.id!,
-                                    title: controller.onyMovieModel.title!,
-                                    posterPath:
-                                        controller.onyMovieModel.posterPath!,
-                                    overview:
-                                        controller.onyMovieModel.overview!,
-                                    voteAverage:
-                                        controller.onyMovieModel.voteAverage!,
-                                    runtime: controller.onyMovieModel.runtime!,
-                                    releaseDate:
-                                        controller.onyMovieModel.releaseDate!);
+                                if (dataBase.ids
+                                    .contains(controller.onlyMovieModel.id!)) {
+                                  dataBase.deleteMovie(
+                                      controller.onlyMovieModel.id!);
+                                  dataBase.removeFavorite(
+                                      controller.onlyMovieModel.id!);
+                                } else {
+                                  dataBase.setMovie(
+                                      idMovie: controller.onlyMovieModel.id!,
+                                      title: controller.onlyMovieModel.title!,
+                                      posterPath:
+                                          controller.onlyMovieModel.posterPath!,
+                                      overview:
+                                          controller.onlyMovieModel.overview!,
+                                      voteAverage: controller
+                                          .onlyMovieModel.voteAverage!,
+                                      runtime:
+                                          controller.onlyMovieModel.runtime!,
+                                      releaseDate: controller
+                                          .onlyMovieModel.releaseDate!);
+                                }
+                                Modular.to.pop();
                               },
-                              color: Colors.yellow,
+                              color: dataBase.ids
+                                      .contains(controller.onlyMovieModel.id!)
+                                  ? Colors.red
+                                  : Colors.yellow,
                               width: MediaQuery.of(context).size.width * .8,
                             ),
                             const SizedBox(
                               height: 10,
                             ),
                             Text(
-                              'Título: ${controller.onyMovieModel.title}',
+                              'Título: ${controller.onlyMovieModel.title}',
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
@@ -80,7 +101,7 @@ class ModalBottom extends StatelessWidget {
                               height: 10,
                             ),
                             Text(
-                              'Lançamento: ${controller.onyMovieModel.releaseDate}',
+                              'Lançamento: ${controller.onlyMovieModel.releaseDate}',
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 14,
@@ -92,7 +113,7 @@ class ModalBottom extends StatelessWidget {
                             ),
                             RatingBarIndicator(
                               rating: double.parse(
-                                      controller.onyMovieModel.voteAverage!) /
+                                      controller.onlyMovieModel.voteAverage!) /
                                   2,
                               itemBuilder: (context, index) => const Icon(
                                 Icons.star,
@@ -108,7 +129,7 @@ class ModalBottom extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                'Sinopse: ${controller.onyMovieModel.overview!}',
+                                'Sinopse: ${controller.onlyMovieModel.overview!}',
                                 style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 14,
@@ -120,7 +141,7 @@ class ModalBottom extends StatelessWidget {
                               height: 5,
                             ),
                             Text(
-                              'Duração: ${controller.onyMovieModel.runtime!} min',
+                              'Duração: ${controller.onlyMovieModel.runtime!} min',
                               style: const TextStyle(
                                 color: Colors.red,
                                 fontSize: 14,
@@ -149,7 +170,7 @@ class ModalBottom extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(6),
                                 child: Image.network(
                                     fit: BoxFit.cover,
-                                    'https://image.tmdb.org/t/p/w500${controller.onyMovieModel.posterPath}'),
+                                    'https://image.tmdb.org/t/p/w500${controller.onlyMovieModel.posterPath}'),
                               ),
                             ),
                             const SizedBox(

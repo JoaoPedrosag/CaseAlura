@@ -94,6 +94,17 @@ mixin _$DataBaseController on _DataBaseController, Store {
   }
 
   @override
+  void removeFavorite(int id) {
+    final _$actionInfo = _$_DataBaseControllerActionController.startAction(
+        name: '_DataBaseController.removeFavorite');
+    try {
+      return super.removeFavorite(id);
+    } finally {
+      _$_DataBaseControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 movies: ${movies},

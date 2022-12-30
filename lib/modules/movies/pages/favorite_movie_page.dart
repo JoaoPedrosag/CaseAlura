@@ -1,7 +1,10 @@
+import 'package:case_alura/core/widgets/container/container_custom.dart';
+import 'package:case_alura/core/widgets/text/text_custom.dart';
 import 'package:case_alura/modules/movies/controller/database/data_base_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:lottie/lottie.dart';
 
 class FavoriteMoviePage extends StatefulWidget {
@@ -75,13 +78,25 @@ class _FavoriteMoviePageState extends State<FavoriteMoviePage> {
         var todo = controller.movies[index];
         return Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            Text(todo['title']),
+            TextCustom(label: (todo['title'])),
+            const SizedBox(
+              height: 10,
+            ),
             Container(
               height: MediaQuery.of(context).size.height * 0.6,
-              width: MediaQuery.of(context).size.width * 0.6,
+              width: MediaQuery.of(context).size.width * 0.8,
+              decoration: const BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black,
+                    blurRadius: 10,
+                    spreadRadius: 5,
+                  )
+                ],
+              ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(6),
                 child: Image.network(
@@ -89,44 +104,65 @@ class _FavoriteMoviePageState extends State<FavoriteMoviePage> {
                     'https://image.tmdb.org/t/p/w500/${todo['poster_path']}'),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.6,
-                height: MediaQuery.of(context).size.height * 0.2,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  color: Colors.blueGrey[300],
+            const SizedBox(
+              height: 10,
+            ),
+            const TextCustom(label: 'Sinopse do filme:'),
+            ContainerCustom(
+              label: todo['overview'],
+            ),
+            TextCustom(label: 'Duracao: ${todo['runtime']} minutos'),
+            TextCustom(label: 'Data de lancamento: ${todo['release_date']}'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextCustom(label: 'Nota: ${todo['vote_average']}'),
+                const SizedBox(
+                  width: 10,
+                  height: 20,
                 ),
-                child: Column(
+                RatingBarIndicator(
+                  rating: double.parse(todo['vote_average']) / 2,
+                  itemBuilder: (context, index) => const Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  itemCount: 5,
+                  itemSize: 30.0,
+                  direction: Axis.horizontal,
+                ),
+              ],
+            ),
+            GestureDetector(
+              onTap: () {
+                controller.deleteMovie(todo['idMovie']);
+                controller.getAllMovies();
+              },
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.05,
+                width: MediaQuery.of(context).size.width * 0.8,
+                decoration: BoxDecoration(
+                  color: Colors.yellow,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Sinopse do filme:'),
-                    Text('Votos do filme'),
-                    Text('Duracao'),
-                    Text('Data de lancamento'),
+                  children: const [
+                    Text(
+                      'Remover dos Favoritos',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
+                    Icon(
+                      Icons.star_purple500_outlined,
+                      size: 20,
+                      color: Colors.black,
+                    ),
                   ],
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Remover dos Favoritos'),
-                IconButton(
-                  icon: const Icon(
-                    Icons.star_purple500_outlined,
-                    size: 20,
-                    color: Colors.yellow,
-                  ),
-                  onPressed: () {
-                    controller.deleteMovie(todo['idMovie']);
-                    controller.getAllMovies();
-                  },
-                ),
-              ],
-            ),
-            Divider(
+            const Divider(
               color: Colors.black,
               thickness: 2,
             ),

@@ -1,5 +1,4 @@
 import 'package:case_alura/modules/movies/local_storage/db_help.dart';
-import 'package:case_alura/modules/movies/model/movie.dart';
 import 'package:mobx/mobx.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -27,6 +26,12 @@ abstract class _DataBaseController with Store {
   @action
   void addNewFavorite(int id) {
     ids.add(id);
+    print(ids);
+  }
+
+  @action
+  void removeFavorite(int id) {
+    ids.remove(id);
     print(ids);
   }
 

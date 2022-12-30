@@ -12,7 +12,7 @@ class MoviesController = _MoviesController with _$MoviesController;
 abstract class _MoviesController with Store {
   MoviesImpl response = MoviesImpl();
   MoviesTodo moviesTodo = MoviesTodo(movies: []);
-  OnyMovieModel onyMovieModel = OnyMovieModel(movie: []);
+  OnyMovieModel onlyMovieModel = OnyMovieModel(movie: []);
   final controller = Modular.get<DataBaseController>();
 
   @observable
@@ -44,7 +44,7 @@ abstract class _MoviesController with Store {
   Future getMovie(int id) async {
     try {
       setLoading(true);
-      onyMovieModel = await response.getMovie(id);
+      onlyMovieModel = await response.getMovie(id);
       setLoading(false);
     } catch (e) {
       setLoading(false);

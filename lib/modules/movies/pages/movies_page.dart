@@ -1,13 +1,11 @@
 import 'package:case_alura/core/widgets/button/button_custom.dart';
 import 'package:case_alura/modules/movies/controller/database/data_base_controller.dart';
 import 'package:case_alura/modules/movies/controller/movies_controller.dart';
-import 'package:case_alura/modules/movies/model/movie.dart';
 import 'package:case_alura/modules/movies/pages/modal_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
 import '../../../core/widgets/circular/circular_progress_custom.dart';
 
 class MoviesPage extends StatefulWidget {
@@ -53,9 +51,9 @@ class _MoviesPageState extends State<MoviesPage> {
                                     onPressed: () {
                                       controller.changePage();
                                     },
-                                    icon: Icon(Icons.first_page_rounded),
+                                    icon: const Icon(Icons.first_page_rounded),
                                   ),
-                                  Text('Voltar para a primeira pagina'),
+                                  const Text('Voltar para a primeira pagina'),
                                 ],
                               )
                             : Container(),
@@ -79,7 +77,6 @@ class _MoviesPageState extends State<MoviesPage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            print(todo.id);
                             controller.getMovie(todo.id!);
                             showModalBottomSheet(
                               context: context,
