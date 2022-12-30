@@ -161,20 +161,25 @@ class _MoviesPageState extends State<MoviesPage> {
   }
 
   _error() {
-    return Center(
-      child: ButtonCustom(
-        label: const Text('Tentar novamente',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            )),
-        onPressed: () {
-          controller.start();
-        },
-        color: Colors.yellow,
-        width: 300,
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Center(
+          child: ButtonCustom(
+            label: const Text('Tentar novamente',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                )),
+            onPressed: () {
+              controller.start();
+            },
+            color: Colors.yellow,
+            width: 300,
+          ),
+        ),
+      ],
     );
   }
 
@@ -232,53 +237,61 @@ class _MoviesPageState extends State<MoviesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Filmes',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
         backgroundColor: Colors.yellow,
         actions: [
           SizedBox(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.favorite, color: Colors.red),
-                  onPressed: () {
-                    Modular.to.pushNamed('favorite');
-                    dataBase.getAllMovies();
-                  },
-                ),
-              ],
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Observer(
+              builder: (_) => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  controller.page > 1
+                      ? Padding(
+                          padding: const EdgeInsets.only(left: 8),
+                          child: GestureDetector(
+                            onTap: () {
+                              controller.changePage();
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(Icons.first_page_rounded),
+                                Text('Voltar',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                          ),
+                        )
+                      : Container(),
+                  const Text(
+                    'Filmes',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.favorite, color: Colors.red),
+                    onPressed: () {
+                      Modular.to.pushNamed('favorite');
+                      dataBase.getAllMovies();
+                    },
+                  ),
+                ],
+              ),
             ),
           )
         ],
       ),
-      body: Observer(
-        builder: (_) => Column(
-          children: [
-            controller.page > 1
-                ? SizedBox(
-                    height: MediaQuery.of(context).size.height * .05,
-                    child: GestureDetector(
-                      onTap: () {
-                        controller.changePage();
-                      },
-                      child: Row(
-                        children: const [
-                          Icon(Icons.first_page_rounded),
-                          Text('Voltar'),
-                        ],
-                      ),
-                    ),
-                  )
-                : Container(),
-            Observer(builder: (_) {
-              return stateManagement(controller.state);
-            })
-          ],
-        ),
+      body: Column(
+        children: [
+          Observer(builder: (_) {
+            return stateManagement(controller.state);
+          })
+        ],
       ),
     );
   }

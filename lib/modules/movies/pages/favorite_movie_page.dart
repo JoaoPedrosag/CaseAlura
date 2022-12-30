@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:lottie/lottie.dart';
 
 class FavoriteMoviePage extends StatefulWidget {
@@ -16,9 +17,21 @@ class FavoriteMoviePage extends StatefulWidget {
 
 class _FavoriteMoviePageState extends State<FavoriteMoviePage> {
   final controller = Modular.get<DataBaseController>();
+
+  @override
+  void dispose() {
+    super.dispose();
+    checkInternet();
+  }
+
   @override
   void initState() {
     super.initState();
+    checkInternet();
+  }
+
+  checkInternet() async {
+    controller.internet = await InternetConnectionChecker().hasConnection;
   }
 
   @override
@@ -93,24 +106,24 @@ class _FavoriteMoviePageState extends State<FavoriteMoviePage> {
               height: 10,
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.6,
-              width: MediaQuery.of(context).size.width * 0.8,
-              decoration: const BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black,
-                    blurRadius: 10,
-                    spreadRadius: 5,
-                  )
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(6),
-                child: Image.network(
-                    fit: BoxFit.cover,
-                    'https://image.tmdb.org/t/p/w500/${todo['poster_path']}'),
-              ),
-            ),
+                height: MediaQuery.of(context).size.height * 0.6,
+                width: MediaQuery.of(context).size.width * 0.8,
+                decoration: const BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 10,
+                      spreadRadius: 5,
+                    )
+                  ],
+                ),
+                child: controller.internet
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(6),
+                        child: Image.network(
+                            fit: BoxFit.cover,
+                            'https://image.tmdb.org/t/p/w500/${todo['poster_path']}'))
+                    : Lottie.asset('assets/no_wifi.json')),
             const SizedBox(
               height: 10,
             ),
