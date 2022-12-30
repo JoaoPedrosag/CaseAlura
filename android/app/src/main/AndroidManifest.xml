@@ -2,7 +2,7 @@
     package="com.alura.test.case_alura">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="case_alura"
+        android:label="Case Alura"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
