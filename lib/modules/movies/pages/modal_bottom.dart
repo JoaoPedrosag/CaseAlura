@@ -1,7 +1,10 @@
+import 'package:asuka/asuka.dart';
 import 'package:case_alura/core/widgets/button/button_custom.dart';
 import 'package:case_alura/core/widgets/circular/circular_progress_custom.dart';
+import 'package:case_alura/core/widgets/text/text_custom.dart';
 import 'package:case_alura/modules/movies/controller/database/data_base_controller.dart';
 import 'package:case_alura/modules/movies/controller/movies_controller.dart';
+import 'package:case_alura/modules/movies/controller/play_video/play_video_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -14,10 +17,11 @@ class ModalBottom extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Modular.get<MoviesController>();
     final dataBase = Modular.get<DataBaseController>();
+    final watch = Modular.get<PlayVideoController>();
     return Observer(
       builder: (_) => SizedBox(
         height: MediaQuery.of(context).size.height * .9,
-        child: controller.loading
+        child: controller.loading || controller.onlyMovieModel.id == null
             ? const Center(
                 child: CircularProgressCustom(),
               )
@@ -172,6 +176,30 @@ class ModalBottom extends StatelessWidget {
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
                               ),
+                            ),
+                            ButtonCustom(
+                              label: watch.loadingVideo
+                                  ? const CircularProgressCustom()
+                                  : const Text('Ver Trailer',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                              onPressed: () async {
+                                await watch.getVideoMovie(
+                                    controller.onlyMovieModel.id!);
+                                watch.key.isEmpty
+                                    ? Asuka.showSnackBar(SnackBar(
+                                        content: TextCustom(
+                                          label: "Trailer indisponivel",
+                                        ),
+                                        backgroundColor: Colors.red,
+                                      ))
+                                    : Modular.to.pushNamed('watch');
+                              },
+                              color: Colors.green,
+                              width: MediaQuery.of(context).size.width * .8,
                             ),
                             const SizedBox(
                               height: 10,

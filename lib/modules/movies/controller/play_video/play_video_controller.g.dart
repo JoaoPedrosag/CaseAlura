@@ -25,8 +25,35 @@ mixin _$PlayVideoController on _PlayVideoController, Store {
     });
   }
 
+  late final _$keyAtom =
+      Atom(name: '_PlayVideoController.key', context: context);
+
+  @override
+  String get key {
+    _$keyAtom.reportRead();
+    return super.key;
+  }
+
+  @override
+  set key(String value) {
+    _$keyAtom.reportWrite(value, super.key, () {
+      super.key = value;
+    });
+  }
+
   late final _$_PlayVideoControllerActionController =
       ActionController(name: '_PlayVideoController', context: context);
+
+  @override
+  void setKey(String value) {
+    final _$actionInfo = _$_PlayVideoControllerActionController.startAction(
+        name: '_PlayVideoController.setKey');
+    try {
+      return super.setKey(value);
+    } finally {
+      _$_PlayVideoControllerActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setLoading(bool value) {
@@ -42,7 +69,8 @@ mixin _$PlayVideoController on _PlayVideoController, Store {
   @override
   String toString() {
     return '''
-loadingVideo: ${loadingVideo}
+loadingVideo: ${loadingVideo},
+key: ${key}
     ''';
   }
 }

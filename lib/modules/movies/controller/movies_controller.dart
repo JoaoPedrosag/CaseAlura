@@ -45,6 +45,7 @@ abstract class _MoviesController with Store {
     try {
       setLoading(true);
       onlyMovieModel = await response.getMovie(id);
+      print(onlyMovieModel);
       setLoading(false);
     } catch (e) {
       setLoading(false);

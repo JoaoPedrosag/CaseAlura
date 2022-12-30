@@ -15,6 +15,12 @@ abstract class _PlayVideoController with Store {
   @observable
   bool loadingVideo = false;
 
+  @observable
+  String key = '';
+
+  @action
+  void setKey(String value) => key = value;
+
   @action
   void setLoading(bool value) => loadingVideo = value;
 
@@ -22,6 +28,12 @@ abstract class _PlayVideoController with Store {
     try {
       setLoading(true);
       video = await response.getVideoMovie(id);
+      var videoKey = video.results![0].key;
+      if (video.results!.isEmpty) {
+        setLoading(false);
+        return;
+      }
+      setKey(videoKey!);
       setLoading(false);
     } catch (e) {
       setLoading(false);

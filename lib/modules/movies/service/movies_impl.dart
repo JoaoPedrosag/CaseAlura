@@ -20,13 +20,16 @@ class MoviesImpl implements IMoviesService {
       final response = await http.get(url).timeout(const Duration(seconds: 3),
           onTimeout: () {
         Asuka.showSnackBar(
-            SnackBar(content: Text('Parece que você esta sem internet')));
+            const SnackBar(content: Text('Parece que você esta sem internet')));
         throw Exception('timeout');
       });
       if (response.statusCode == 200) {
         return MoviesTodo.fromJson(jsonDecode(response.body));
+      } else {
+        Asuka.showSnackBar(const SnackBar(
+            content: Text('Parece que o servidor está offline')));
+        throw Exception('Unable to fetch movies from the REST API');
       }
-      return MoviesTodo(movies: []);
     } on Exception catch (e) {
       log(e.toString());
       throw Exception("Erro ao buscar filmes");
@@ -38,11 +41,19 @@ class MoviesImpl implements IMoviesService {
     try {
       final url =
           Uri.parse("${Links.base}$id?api_key=${Links.key}&${Links.language}");
-      final response = await http.get(url);
+      final response = await http.get(url).timeout(const Duration(seconds: 3),
+          onTimeout: () {
+        Asuka.showSnackBar(
+            const SnackBar(content: Text('Parece que você esta sem internet')));
+        throw Exception('timeout');
+      });
       if (response.statusCode == 200) {
         return OnyMovieModel.fromJson(jsonDecode(response.body));
+      } else {
+        Asuka.showSnackBar(const SnackBar(
+            content: Text('Parece que o servidor está offline')));
+        throw Exception('Unable to fetch movies from the REST API');
       }
-      return OnyMovieModel(movie: []);
     } on Exception catch (e) {
       log(e.toString());
       throw Exception("Erro ao buscar filmes");
@@ -54,11 +65,19 @@ class MoviesImpl implements IMoviesService {
     try {
       final url = Uri.parse(
           "${Links.base}$id/videos?api_key=${Links.key}&${Links.language}");
-      final response = await http.get(url);
+      final response = await http.get(url).timeout(const Duration(seconds: 3),
+          onTimeout: () {
+        Asuka.showSnackBar(
+            const SnackBar(content: Text('Parece que você esta sem internet')));
+        throw Exception('timeout');
+      });
       if (response.statusCode == 200) {
         return MovieVideo.fromJson(jsonDecode(response.body));
+      } else {
+        Asuka.showSnackBar(const SnackBar(
+            content: Text('Parece que o servidor está offline')));
+        throw Exception('Unable to fetch movies from the REST API');
       }
-      return MovieVideo(video: []);
     } on Exception catch (e) {
       log(e.toString());
       throw Exception("Erro ao buscar filmes");
