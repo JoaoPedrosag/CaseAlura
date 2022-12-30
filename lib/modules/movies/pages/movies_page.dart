@@ -50,18 +50,23 @@ class _MoviesPageState extends State<MoviesPage> {
                             icon: dataBase.ids.contains(todo.id)
                                 ? const Icon(Icons.favorite)
                                 : const Icon(Icons.favorite_border_outlined),
-                            onPressed: () {
+                            onPressed: () async {
+                              await controller.getMovie(todo.id!);
                               if (dataBase.ids.contains(todo.id)) {
                                 dataBase.deleteMovie(todo.id!);
                               } else {
                                 dataBase.setMovie(
-                                    idMovie: todo.id!,
-                                    title: todo.title!,
-                                    posterPath: todo.posterPath!,
-                                    overview: todo.overview!,
-                                    voteAverage: todo.voteAverage!,
-                                    runtime: 0,
-                                    releaseDate: todo.releaseDate!);
+                                    idMovie: controller.onlyMovieModel.id!,
+                                    title: controller.onlyMovieModel.title!,
+                                    posterPath:
+                                        controller.onlyMovieModel.posterPath!,
+                                    overview:
+                                        controller.onlyMovieModel.overview!,
+                                    voteAverage:
+                                        controller.onlyMovieModel.voteAverage!,
+                                    runtime: controller.onlyMovieModel.runtime!,
+                                    releaseDate:
+                                        controller.onlyMovieModel.releaseDate!);
                               }
                               dataBase.getAllMovies();
                             },
@@ -227,8 +232,10 @@ class _MoviesPageState extends State<MoviesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Filmes',
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        title: const Text(
+          'Filmes',
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
         backgroundColor: Colors.yellow,
         actions: [

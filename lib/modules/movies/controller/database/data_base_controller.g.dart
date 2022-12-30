@@ -41,6 +41,22 @@ mixin _$DataBaseController on _DataBaseController, Store {
     });
   }
 
+  late final _$emptyAtom =
+      Atom(name: '_DataBaseController.empty', context: context);
+
+  @override
+  bool get empty {
+    _$emptyAtom.reportRead();
+    return super.empty;
+  }
+
+  @override
+  set empty(bool value) {
+    _$emptyAtom.reportWrite(value, super.empty, () {
+      super.empty = value;
+    });
+  }
+
   late final _$getAllMoviesAsyncAction =
       AsyncAction('_DataBaseController.getAllMovies', context: context);
 
@@ -83,6 +99,17 @@ mixin _$DataBaseController on _DataBaseController, Store {
       ActionController(name: '_DataBaseController', context: context);
 
   @override
+  void setEmpty(bool value) {
+    final _$actionInfo = _$_DataBaseControllerActionController.startAction(
+        name: '_DataBaseController.setEmpty');
+    try {
+      return super.setEmpty(value);
+    } finally {
+      _$_DataBaseControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void addNewFavorite(int id) {
     final _$actionInfo = _$_DataBaseControllerActionController.startAction(
         name: '_DataBaseController.addNewFavorite');
@@ -108,7 +135,8 @@ mixin _$DataBaseController on _DataBaseController, Store {
   String toString() {
     return '''
 movies: ${movies},
-ids: ${ids}
+ids: ${ids},
+empty: ${empty}
     ''';
   }
 }

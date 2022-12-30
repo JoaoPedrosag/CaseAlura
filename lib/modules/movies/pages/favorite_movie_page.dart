@@ -17,6 +17,11 @@ class FavoriteMoviePage extends StatefulWidget {
 class _FavoriteMoviePageState extends State<FavoriteMoviePage> {
   final controller = Modular.get<DataBaseController>();
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -46,28 +51,30 @@ class _FavoriteMoviePageState extends State<FavoriteMoviePage> {
           ],
         ),
       ),
-      body: controller.movies.isEmpty
-          ? Observer(
-              builder: (_) => Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(
-                      child: Lottie.asset('assets/sad_heart.json'),
-                    ),
-                    const Text(
-                      'Pi pi pi... estamos sem nenhum filme nos favoritos',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          : Observer(builder: (_) => _list()),
+      body: Observer(
+        builder: (_) => controller.empty ? _empty() : _list(),
+      ),
+    );
+  }
+
+  _empty() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Lottie.asset('assets/sad_heart.json'),
+          ),
+          const Text(
+            'Pi pi pi... estamos sem nenhum filme nos favoritos',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -133,34 +140,40 @@ class _FavoriteMoviePageState extends State<FavoriteMoviePage> {
                 ),
               ],
             ),
-            GestureDetector(
-              onTap: () {
-                controller.deleteMovie(todo['idMovie']);
-                controller.getAllMovies();
-              },
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.05,
-                width: MediaQuery.of(context).size.width * 0.8,
-                decoration: BoxDecoration(
-                  color: Colors.yellow,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text(
-                      'Remover dos Favoritos',
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.05,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    decoration: BoxDecoration(
+                      color: Colors.yellow,
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    Icon(
-                      Icons.star_purple500_outlined,
-                      size: 20,
-                      color: Colors.black,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          'Remover dos Favoritos',
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
+                        Icon(
+                          Icons.star_purple500_outlined,
+                          size: 20,
+                          color: Colors.black,
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
+                  onTap: () async {
+                    controller.deleteMovie(todo['idMovie']);
+                    await controller.getAllMovies();
+                    controller.removeFavorite(todo['idMovie']);
+                  },
                 ),
-              ),
+              ],
             ),
             const Divider(
               color: Colors.black,

@@ -112,17 +112,41 @@ class ModalBottom extends StatelessWidget {
                             const SizedBox(
                               height: 10,
                             ),
-                            RatingBarIndicator(
-                              rating: double.parse(
-                                      controller.onlyMovieModel.voteAverage!) /
-                                  2,
-                              itemBuilder: (context, index) => const Icon(
-                                Icons.star,
-                                color: Colors.amber,
+                            Text(
+                              'Nota do Filme ${controller.onlyMovieModel.voteAverage}',
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
                               ),
-                              itemCount: 5,
-                              itemSize: 20.0,
-                              direction: Axis.horizontal,
+                            ),
+                            Container(
+                              height: MediaQuery.of(context).size.height * .04,
+                              width: MediaQuery.of(context).size.width * .27,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Colors.blue[300],
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: const Offset(
+                                          0, 3), // changes position of shadow
+                                    ),
+                                  ]),
+                              child: RatingBarIndicator(
+                                rating: double.parse(controller
+                                        .onlyMovieModel.voteAverage!) /
+                                    2,
+                                itemBuilder: (context, index) => const Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                ),
+                                itemCount: 5,
+                                itemSize: 20.0,
+                                direction: Axis.horizontal,
+                              ),
                             ),
                             const SizedBox(
                               height: 10,
