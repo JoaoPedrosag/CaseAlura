@@ -32,7 +32,7 @@ class DB {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       idMovie INTEGER, 
       title TEXT,
-      backdrop_path TEXT,
+      poster_path TEXT,
       overview TEXT,
       vote_average TEXT,
       runtime INTEGER,

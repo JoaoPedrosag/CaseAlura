@@ -1,16 +1,16 @@
 class Movie {
   final int idMovie;
   final String title;
-  final String backdropPath;
+  final String posterPath;
   final String overview;
   final String voteAverage;
-  final String runtime;
+  final int runtime;
   final String releaseDate;
 
   Movie(
       {required this.idMovie,
       required this.title,
-      required this.backdropPath,
+      required this.posterPath,
       required this.overview,
       required this.voteAverage,
       required this.runtime,

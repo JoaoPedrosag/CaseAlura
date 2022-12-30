@@ -41,22 +41,6 @@ mixin _$MoviesController on _MoviesController, Store {
     });
   }
 
-  late final _$favoriteAtom =
-      Atom(name: '_MoviesController.favorite', context: context);
-
-  @override
-  ObservableList<int> get favorite {
-    _$favoriteAtom.reportRead();
-    return super.favorite;
-  }
-
-  @override
-  set favorite(ObservableList<int> value) {
-    _$favoriteAtom.reportWrite(value, super.favorite, () {
-      super.favorite = value;
-    });
-  }
-
   late final _$stateAtom =
       Atom(name: '_MoviesController.state', context: context);
 
@@ -77,6 +61,17 @@ mixin _$MoviesController on _MoviesController, Store {
       ActionController(name: '_MoviesController', context: context);
 
   @override
+  void changePage() {
+    final _$actionInfo = _$_MoviesControllerActionController.startAction(
+        name: '_MoviesController.changePage');
+    try {
+      return super.changePage();
+    } finally {
+      _$_MoviesControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setLoading(bool value) {
     final _$actionInfo = _$_MoviesControllerActionController.startAction(
         name: '_MoviesController.setLoading');
@@ -88,33 +83,10 @@ mixin _$MoviesController on _MoviesController, Store {
   }
 
   @override
-  void addFavorite(int isFavorite) {
-    final _$actionInfo = _$_MoviesControllerActionController.startAction(
-        name: '_MoviesController.addFavorite');
-    try {
-      return super.addFavorite(isFavorite);
-    } finally {
-      _$_MoviesControllerActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void nextPage() {
-    final _$actionInfo = _$_MoviesControllerActionController.startAction(
-        name: '_MoviesController.nextPage');
-    try {
-      return super.nextPage();
-    } finally {
-      _$_MoviesControllerActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 loading: ${loading},
 page: ${page},
-favorite: ${favorite},
 state: ${state}
     ''';
   }
