@@ -44,33 +44,25 @@ class _MoviesPageState extends State<MoviesPage> {
                     scrollDirection: Axis.vertical,
                     child: Column(
                       children: [
-                        controller.page > 1
-                            ? Row(
-                                children: [
-                                  IconButton(
-                                    onPressed: () {
-                                      controller.changePage();
-                                    },
-                                    icon: const Icon(Icons.first_page_rounded),
-                                  ),
-                                  const Text('Voltar para a primeira pagina'),
-                                ],
-                              )
-                            : Container(),
                         SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.04,
                           child: IconButton(
                             icon: dataBase.ids.contains(todo.id)
                                 ? const Icon(Icons.favorite)
                                 : const Icon(Icons.favorite_border_outlined),
                             onPressed: () {
-                              dataBase.setMovie(
-                                  idMovie: todo.id!,
-                                  title: todo.title!,
-                                  posterPath: todo.posterPath!,
-                                  overview: todo.overview!,
-                                  voteAverage: todo.voteAverage!,
-                                  runtime: 0,
-                                  releaseDate: todo.releaseDate!);
+                              if (dataBase.ids.contains(todo.id)) {
+                                dataBase.deleteMovie(todo.id!);
+                              } else {
+                                dataBase.setMovie(
+                                    idMovie: todo.id!,
+                                    title: todo.title!,
+                                    posterPath: todo.posterPath!,
+                                    overview: todo.overview!,
+                                    voteAverage: todo.voteAverage!,
+                                    runtime: 0,
+                                    releaseDate: todo.releaseDate!);
+                              }
                               dataBase.getAllMovies();
                             },
                           ),
@@ -103,8 +95,8 @@ class _MoviesPageState extends State<MoviesPage> {
                                 ),
                               ],
                             ),
-                            height: 500,
-                            width: 460,
+                            height: MediaQuery.of(context).size.height * 0.63,
+                            width: MediaQuery.of(context).size.width * 0.8,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(6),
                               child: Image.network(
@@ -121,6 +113,7 @@ class _MoviesPageState extends State<MoviesPage> {
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 14,
+                            overflow: TextOverflow.ellipsis,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -139,7 +132,7 @@ class _MoviesPageState extends State<MoviesPage> {
                             color: Colors.amber,
                           ),
                           itemCount: 5,
-                          itemSize: 50.0,
+                          itemSize: 45.0,
                           direction: Axis.horizontal,
                         ),
                         Text(
@@ -182,7 +175,7 @@ class _MoviesPageState extends State<MoviesPage> {
 
   _loading() {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * .89,
+      height: MediaQuery.of(context).size.height * .60,
       child: const Center(
         child: CircularProgressCustom(),
       ),
@@ -255,12 +248,30 @@ class _MoviesPageState extends State<MoviesPage> {
           )
         ],
       ),
-      body: Column(
-        children: [
-          Observer(builder: (_) {
-            return stateManagement(controller.state);
-          })
-        ],
+      body: Observer(
+        builder: (_) => Column(
+          children: [
+            controller.page > 1
+                ? SizedBox(
+                    height: MediaQuery.of(context).size.height * .05,
+                    child: GestureDetector(
+                      onTap: () {
+                        controller.changePage();
+                      },
+                      child: Row(
+                        children: const [
+                          Icon(Icons.first_page_rounded),
+                          Text('Voltar'),
+                        ],
+                      ),
+                    ),
+                  )
+                : Container(),
+            Observer(builder: (_) {
+              return stateManagement(controller.state);
+            })
+          ],
+        ),
       ),
     );
   }

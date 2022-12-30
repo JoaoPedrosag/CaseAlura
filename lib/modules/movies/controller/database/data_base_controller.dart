@@ -20,19 +20,16 @@ abstract class _DataBaseController with Store {
     _database = await DB.instance.dataBase;
     movies = await _database.query('movies');
     ids = movies.map((e) => e['idMovie']).toList();
-    print(ids);
   }
 
   @action
   void addNewFavorite(int id) {
     ids.add(id);
-    print(ids);
   }
 
   @action
   void removeFavorite(int id) {
     ids.remove(id);
-    print(ids);
   }
 
   @action

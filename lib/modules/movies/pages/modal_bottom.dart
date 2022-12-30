@@ -78,6 +78,7 @@ class ModalBottom extends StatelessWidget {
                                       releaseDate: controller
                                           .onlyMovieModel.releaseDate!);
                                 }
+                                dataBase.getAllMovies();
                                 Modular.to.pop();
                               },
                               color: dataBase.ids

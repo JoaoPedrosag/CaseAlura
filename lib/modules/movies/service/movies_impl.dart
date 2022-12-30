@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:case_alura/modules/movies/model/movie_video_model.dart';
 import 'package:case_alura/modules/movies/model/movies_model.dart';
 import 'package:case_alura/modules/movies/model/only_movie_model.dart';
 import 'package:case_alura/modules/movies/service/i_movies.dart';
@@ -33,6 +34,22 @@ class MoviesImpl implements IMoviesService {
         return OnyMovieModel.fromJson(jsonDecode(response.body));
       }
       return OnyMovieModel(movie: []);
+    } on Exception catch (e) {
+      log(e.toString());
+      throw Exception("Erro ao buscar filmes");
+    }
+  }
+
+  @override
+  Future<MovieVideo> getVideoMovie(int id) async {
+    try {
+      final url = Uri.parse(
+          "https://api.themoviedb.org/3/movie/$id/videos?api_key=983928bb76ee533d2e6b4d52986438eb&language=pt-BR");
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        return MovieVideo.fromJson(jsonDecode(response.body));
+      }
+      return MovieVideo(video: []);
     } on Exception catch (e) {
       log(e.toString());
       throw Exception("Erro ao buscar filmes");
