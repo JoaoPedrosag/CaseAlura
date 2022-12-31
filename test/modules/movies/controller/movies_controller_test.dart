@@ -1,16 +1,18 @@
 import 'package:case_alura/modules/movies/controller/movies_controller.dart';
-import 'package:case_alura/modules/movies/controller/play_video/play_video_controller.dart';
+import 'package:case_alura/modules/movies/model/movies_model.dart';
+import 'package:case_alura/modules/movies/service/movies_impl.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-// void main() {
-//   final movieController = MoviesController();
-//   test('deve buscar os dados', () {
-//     movieController.getMovies();
-//     expect(controller1.movies, isNotNull);
-//   });
+import 'package:mobx/mobx.dart';
+import 'package:mockito/mockito.dart';
 
-//   test('must return the video with a key', () async {
-//     final controller = PlayVideoController();
-//     await controller.getVideoMovie(550988);
-//   });
-// }
+void main() {
+  test('must fill in the variable movieTodo', () async {
+    final movieController = MoviesController();
+    await movieController.start();
+    var result = movieController.moviesTodo;
+    print(result.totalPages);
+    expect(result.page, 1);
+  });
+}

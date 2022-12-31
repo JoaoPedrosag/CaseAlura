@@ -101,7 +101,7 @@ class _WatchVideoPageState extends State<WatchVideoPage> {
                 padding: const EdgeInsets.only(top: 40),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.grey[890],
+                    color: Colors.grey[800],
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: Colors.blueGrey[200]!),
                   ),

@@ -6,11 +6,11 @@ part 'internet_controller.g.dart';
 class InternetController = _InternetController with _$InternetController;
 
 abstract class _InternetController with Store {
+  @observable
+  bool internet = false;
+
   @action
   checkInternet() async {
     internet = await InternetConnectionChecker().hasConnection;
   }
-
-  @observable
-  bool internet = false;
 }

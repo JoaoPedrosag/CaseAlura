@@ -1,4 +1,3 @@
-import 'package:asuka/snackbars/asuka_snack_bar.dart';
 import 'package:case_alura/core/controllers/internet_controller.dart';
 import 'package:case_alura/core/widgets/button/button_custom.dart';
 import 'package:case_alura/core/widgets/snack_custom/snack_bar_custom.dart';

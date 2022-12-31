@@ -1,19 +1,16 @@
 import 'dart:developer';
-import 'package:case_alura/modules/movies/controller/database/data_base_controller.dart';
 import 'package:case_alura/modules/movies/model/movies_model.dart';
 import 'package:case_alura/modules/movies/model/only_movie_model.dart';
 import 'package:case_alura/modules/movies/service/movies_impl.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 part 'movies_controller.g.dart';
 
 class MoviesController = _MoviesController with _$MoviesController;
 
 abstract class _MoviesController with Store {
-  final response = Modular.get<MoviesImpl>();
+  MoviesImpl response = MoviesImpl();
   MoviesTodo moviesTodo = MoviesTodo(movies: []);
   OnyMovieModel onlyMovieModel = OnyMovieModel(movie: []);
-  final controller = Modular.get<DataBaseController>();
 
   @observable
   bool loading = false;

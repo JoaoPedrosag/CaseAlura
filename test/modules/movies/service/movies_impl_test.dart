@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:case_alura/modules/movies/service/movies_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -21,7 +19,7 @@ void main() {
   test('must return the video with a key', () async {
     final testGetVideo = response
         .getVideoMovie(id[0])
-        .then((value) => log(value.results![0].key.toString()));
+        .then((value) => print(value.results![0].key));
 
     expect(testGetVideo, isNotNull);
   });
