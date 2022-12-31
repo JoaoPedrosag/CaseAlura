@@ -13,9 +13,6 @@ abstract class _DataBaseController with Store {
   List movies = [];
 
   @observable
-  bool internet = false;
-
-  @observable
   List ids = [];
 
   @observable

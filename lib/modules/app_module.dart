@@ -1,10 +1,13 @@
+import 'package:case_alura/core/controllers/internet_controller.dart';
 import 'package:case_alura/modules/movies/movies_module.dart';
 import 'package:case_alura/modules/splash/splash_page.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class AppModule extends Module {
   @override
-  List<Bind> get binds => [];
+  List<Bind> get binds => [
+        Bind.lazySingleton((i) => InternetController()),
+      ];
 
   @override
   List<ModularRoute> get routes => [

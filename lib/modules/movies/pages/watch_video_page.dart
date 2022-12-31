@@ -3,8 +3,6 @@ import 'package:case_alura/core/widgets/text/text_custom.dart';
 import 'package:case_alura/modules/movies/controller/play_video/play_video_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:lottie/lottie.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -34,10 +32,9 @@ class _WatchVideoPageState extends State<WatchVideoPage> {
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
       DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft
     ]);
     _controller = YoutubePlayerController(
       initialVideoId: controllerwatch.key,
@@ -104,7 +101,7 @@ class _WatchVideoPageState extends State<WatchVideoPage> {
                 padding: const EdgeInsets.only(top: 40),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.blueGrey[200],
+                    color: Colors.grey[890],
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: Colors.blueGrey[200]!),
                   ),

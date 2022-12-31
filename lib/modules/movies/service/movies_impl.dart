@@ -1,14 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
-
-import 'package:asuka/asuka.dart';
 import 'package:case_alura/core/const/api_utl.dart';
 import 'package:case_alura/core/widgets/snack_custom/snack_bar_custom.dart';
 import 'package:case_alura/modules/movies/model/movie_video_model.dart';
 import 'package:case_alura/modules/movies/model/movies_model.dart';
 import 'package:case_alura/modules/movies/model/only_movie_model.dart';
 import 'package:case_alura/modules/movies/service/i_movies.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class MoviesImpl implements IMoviesService {
@@ -19,15 +16,13 @@ class MoviesImpl implements IMoviesService {
           "${Links.base}now_playing?api_key=${Links.key}&${Links.language}&page=$page");
       final response = await http.get(url).timeout(const Duration(seconds: 3),
           onTimeout: () {
-        Asuka.showSnackBar(
-            const SnackBar(content: Text('Parece que você esta sem internet')));
+        SnackBarCustom.alert('Parece que você esta sem internet');
         throw Exception('timeout');
       });
       if (response.statusCode == 200) {
         return MoviesTodo.fromJson(jsonDecode(response.body));
       } else {
-        Asuka.showSnackBar(const SnackBar(
-            content: Text('Parece que o servidor está offline')));
+        SnackBarCustom.error('Parece que nossos servidores estão desligados');
         throw Exception('Unable to fetch movies from the REST API');
       }
     } on Exception catch (e) {
@@ -43,15 +38,13 @@ class MoviesImpl implements IMoviesService {
           Uri.parse("${Links.base}$id?api_key=${Links.key}&${Links.language}");
       final response = await http.get(url).timeout(const Duration(seconds: 3),
           onTimeout: () {
-        Asuka.showSnackBar(
-            const SnackBar(content: Text('Parece que você esta sem internet')));
+        SnackBarCustom.alert('Parece que você esta sem internet');
         throw Exception('timeout');
       });
       if (response.statusCode == 200) {
         return OnyMovieModel.fromJson(jsonDecode(response.body));
       } else {
-        Asuka.showSnackBar(const SnackBar(
-            content: Text('Parece que o servidor está offline')));
+        SnackBarCustom.error('Parece que nossos servidores estão desligados');
         throw Exception('Unable to fetch movies from the REST API');
       }
     } on Exception catch (e) {
@@ -67,15 +60,13 @@ class MoviesImpl implements IMoviesService {
           "${Links.base}$id/videos?api_key=${Links.key}&${Links.language}");
       final response = await http.get(url).timeout(const Duration(seconds: 3),
           onTimeout: () {
-        Asuka.showSnackBar(
-            const SnackBar(content: Text('Parece que você esta sem internet')));
+        SnackBarCustom.alert('Parece que você esta sem internet');
         throw Exception('timeout');
       });
       if (response.statusCode == 200) {
         return MovieVideo.fromJson(jsonDecode(response.body));
       } else {
-        Asuka.showSnackBar(const SnackBar(
-            content: Text('Parece que o servidor está offline')));
+        SnackBarCustom.error('Parece que nossos servidores estão desligados');
         throw Exception('Unable to fetch movies from the REST API');
       }
     } on Exception catch (e) {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:asuka/asuka.dart' as asuka;
+import 'package:asuka/asuka.dart';
 
 class SnackBarCustom {
   static void success(String text) {
-    asuka.showSnackBar(SnackBar(
+    Asuka.showSnackBar(SnackBar(
       duration: const Duration(milliseconds: 2300),
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.green,
@@ -26,7 +26,7 @@ class SnackBarCustom {
   }
 
   static void error(String text) {
-    asuka.showSnackBar(SnackBar(
+    Asuka.showSnackBar(SnackBar(
       duration: const Duration(milliseconds: 2300),
       behavior: SnackBarBehavior.floating,
       backgroundColor: const Color.fromRGBO(152, 0, 0, 6),
@@ -40,6 +40,7 @@ class SnackBarCustom {
         ),
         Flexible(
           child: Text(
+            style: const TextStyle(color: Colors.white),
             text,
             overflow: TextOverflow.clip,
           ),
@@ -49,14 +50,14 @@ class SnackBarCustom {
   }
 
   static void alert(String text) {
-    asuka.showSnackBar(SnackBar(
+    Asuka.showSnackBar(SnackBar(
       duration: const Duration(milliseconds: 2300),
       behavior: SnackBarBehavior.floating,
-      backgroundColor: const Color.fromRGBO(38, 0, 98, 1),
+      backgroundColor: Colors.amber,
       content: Row(children: [
         const Icon(
           Icons.contact_support_rounded,
-          color: Colors.white,
+          color: Colors.black,
         ),
         const SizedBox(
           width: 12,
@@ -64,6 +65,7 @@ class SnackBarCustom {
         Flexible(
           child: Text(
             text,
+            style: const TextStyle(color: Colors.black),
             overflow: TextOverflow.clip,
           ),
         ),

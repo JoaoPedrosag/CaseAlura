@@ -25,22 +25,6 @@ mixin _$DataBaseController on _DataBaseController, Store {
     });
   }
 
-  late final _$internetAtom =
-      Atom(name: '_DataBaseController.internet', context: context);
-
-  @override
-  bool get internet {
-    _$internetAtom.reportRead();
-    return super.internet;
-  }
-
-  @override
-  set internet(bool value) {
-    _$internetAtom.reportWrite(value, super.internet, () {
-      super.internet = value;
-    });
-  }
-
   late final _$idsAtom =
       Atom(name: '_DataBaseController.ids', context: context);
 
@@ -151,7 +135,6 @@ mixin _$DataBaseController on _DataBaseController, Store {
   String toString() {
     return '''
 movies: ${movies},
-internet: ${internet},
 ids: ${ids},
 empty: ${empty}
     ''';

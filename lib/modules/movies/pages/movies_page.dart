@@ -1,4 +1,7 @@
+import 'package:asuka/snackbars/asuka_snack_bar.dart';
+import 'package:case_alura/core/controllers/internet_controller.dart';
 import 'package:case_alura/core/widgets/button/button_custom.dart';
+import 'package:case_alura/core/widgets/snack_custom/snack_bar_custom.dart';
 import 'package:case_alura/modules/movies/controller/database/data_base_controller.dart';
 import 'package:case_alura/modules/movies/controller/movies_controller.dart';
 import 'package:case_alura/modules/movies/pages/modal_bottom.dart';
@@ -19,6 +22,7 @@ class _MoviesPageState extends State<MoviesPage> {
   late final ScrollController _scrollController;
   final controller = Modular.get<MoviesController>();
   final dataBase = Modular.get<DataBaseController>();
+  final internetController = Modular.get<InternetController>();
 
   _start() {
     return Container();
@@ -38,8 +42,8 @@ class _MoviesPageState extends State<MoviesPage> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
-                  height: 20,
-                  width: 300,
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  width: MediaQuery.of(context).size.width * 0.8,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Column(
@@ -48,7 +52,7 @@ class _MoviesPageState extends State<MoviesPage> {
                           height: MediaQuery.of(context).size.height * 0.04,
                           child: IconButton(
                             icon: dataBase.ids.contains(todo.id)
-                                ? const Icon(Icons.favorite)
+                                ? const Icon(Icons.favorite, color: Colors.red)
                                 : const Icon(Icons.favorite_border_outlined),
                             onPressed: () async {
                               await controller.getMovie(todo.id!);
@@ -77,7 +81,6 @@ class _MoviesPageState extends State<MoviesPage> {
                             controller.getMovie(todo.id!);
                             showModalBottomSheet(
                               context: context,
-                              backgroundColor: Colors.transparent,
                               shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(20),
@@ -162,21 +165,27 @@ class _MoviesPageState extends State<MoviesPage> {
 
   _error() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Center(
-          child: ButtonCustom(
-            label: const Text('Tentar novamente',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                )),
-            onPressed: () {
-              controller.start();
-            },
-            color: Colors.yellow,
-            width: 300,
+        SizedBox(
+          height: MediaQuery.of(context).size.height * .8,
+          child: Center(
+            child: ButtonCustom(
+              label: const Text('Tentar novamente',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  )),
+              onPressed: () {
+                internetController.checkInternet();
+                if (internetController.internet) {
+                  controller.start();
+                }
+                SnackBarCustom.error('Parece que você sem internet');
+              },
+              color: Colors.yellow,
+              width: MediaQuery.of(context).size.width * .7,
+            ),
           ),
         ),
       ],
@@ -210,6 +219,7 @@ class _MoviesPageState extends State<MoviesPage> {
   @override
   void initState() {
     super.initState();
+    internetController.checkInternet();
     dataBase.getAllMovies();
     controller.start();
 

@@ -10,7 +10,7 @@ part 'movies_controller.g.dart';
 class MoviesController = _MoviesController with _$MoviesController;
 
 abstract class _MoviesController with Store {
-  MoviesImpl response = MoviesImpl();
+  final response = Modular.get<MoviesImpl>();
   MoviesTodo moviesTodo = MoviesTodo(movies: []);
   OnyMovieModel onlyMovieModel = OnyMovieModel(movie: []);
   final controller = Modular.get<DataBaseController>();
@@ -32,6 +32,7 @@ abstract class _MoviesController with Store {
 
   Future start() async {
     page++;
+    moviesTodo.totalPages == page ? page = 1 : page;
     try {
       state = HomeState.loading;
       moviesTodo = await response.getMovies(page);
@@ -45,7 +46,6 @@ abstract class _MoviesController with Store {
     try {
       setLoading(true);
       onlyMovieModel = await response.getMovie(id);
-      print(onlyMovieModel);
       setLoading(false);
     } catch (e) {
       setLoading(false);

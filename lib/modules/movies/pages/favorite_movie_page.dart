@@ -1,3 +1,4 @@
+import 'package:case_alura/core/controllers/internet_controller.dart';
 import 'package:case_alura/core/widgets/container/container_custom.dart';
 import 'package:case_alura/core/widgets/text/text_custom.dart';
 import 'package:case_alura/modules/movies/controller/database/data_base_controller.dart';
@@ -5,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+
 import 'package:lottie/lottie.dart';
 
 class FavoriteMoviePage extends StatefulWidget {
@@ -17,21 +18,18 @@ class FavoriteMoviePage extends StatefulWidget {
 
 class _FavoriteMoviePageState extends State<FavoriteMoviePage> {
   final controller = Modular.get<DataBaseController>();
+  final internetController = Modular.get<InternetController>();
 
   @override
   void dispose() {
     super.dispose();
-    checkInternet();
+    internetController.checkInternet();
   }
 
   @override
   void initState() {
     super.initState();
-    checkInternet();
-  }
-
-  checkInternet() async {
-    controller.internet = await InternetConnectionChecker().hasConnection;
+    internetController.checkInternet();
   }
 
   @override
@@ -78,12 +76,10 @@ class _FavoriteMoviePageState extends State<FavoriteMoviePage> {
           Center(
             child: Lottie.asset('assets/sad_heart.json'),
           ),
-          const Text(
-            'Pi pi pi... estamos sem nenhum filme nos favoritos',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+          const Padding(
+            padding: EdgeInsets.all(32.0),
+            child: TextCustom(
+              label: 'Pi pi pi... estamos sem nenhum filme nos favoritos.',
             ),
           ),
         ],
@@ -105,7 +101,8 @@ class _FavoriteMoviePageState extends State<FavoriteMoviePage> {
             const SizedBox(
               height: 10,
             ),
-            Container(
+            Observer(
+              builder: (_) => Container(
                 height: MediaQuery.of(context).size.height * 0.6,
                 width: MediaQuery.of(context).size.width * 0.8,
                 decoration: const BoxDecoration(
@@ -117,13 +114,15 @@ class _FavoriteMoviePageState extends State<FavoriteMoviePage> {
                     )
                   ],
                 ),
-                child: controller.internet
+                child: internetController.internet
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(6),
                         child: Image.network(
                             fit: BoxFit.cover,
                             'https://image.tmdb.org/t/p/w500/${todo['poster_path']}'))
-                    : Lottie.asset('assets/no_wifi.json')),
+                    : Lottie.asset('assets/no_wifi.json'),
+              ),
+            ),
             const SizedBox(
               height: 10,
             ),
