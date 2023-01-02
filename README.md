@@ -1,16 +1,30 @@
-# case_alura
+<h2>🛠️ Olá, para executar o projeto basta fazer um git clone.</h2>
 
-Case Alura vaga Flutter
+<h2> Packages Utilizados </h2>
+- `Firebase`
+  - Core
+  - Auth | Sign-in
+- `Bloc/Cubit` para Gerenciamento de Estado e implementação do BLoC Pattern
+- Uso do `Modular` para Gerenciamento de Rotas e Injeção de Dependência
+Projeto foi criado com Flutter na versão 3.3.8, versoes anteriores provalvemente irao acontencer erros de alguns Widgets depreciated.
+Projeto foi feito e testado para Android, foi habilitado para execucao em IOS, caso queira executar em outra plataforma digitar no terminal Exemplo: 'flutter create --platforms=linux . ' OBS: Não esquecer do . para criar na pasta atual.
+Para executar os testes, digite no terminal 'flutter test' e aguardar o carregamento dos testes.
+Para executar o projeto basta digitar no terminal 'flutter run' e aguardar o carregamento do projeto.
+Ou entrar no arquivo main.dart e dar um Run.
 
-## Getting Started
+Projeto foi criado com Flutter Modular para o conceito de modulos, ou seja 'module de movies' contem tudo relacionado ao filme, a pasta core seria um 'utils ' disponivel para toda a aplicacão, ou seja Widgets, constantes, etc.
 
-This project is a starting point for a Flutter application.
+Para gerenciamente de estado utilizado Mobx com build_runner.
 
-A few resources to get you started if this is your first Flutter project:
+Requicoes utizou o Package Http.
+Animaçoes utizou o Package Lottie.
+   </p>
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+
+
+
+
+
+
