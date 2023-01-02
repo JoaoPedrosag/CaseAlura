@@ -3,7 +3,7 @@ import 'package:case_alura/core/widgets/button/button_custom.dart';
 import 'package:case_alura/core/widgets/snack_custom/snack_bar_custom.dart';
 import 'package:case_alura/modules/movies/controller/database/data_base_controller.dart';
 import 'package:case_alura/modules/movies/controller/movies_controller.dart';
-import 'package:case_alura/modules/movies/pages/modal_bottom.dart';
+import 'package:case_alura/modules/movies/pages/modal_only_movie_bottom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';

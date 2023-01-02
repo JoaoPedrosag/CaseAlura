@@ -14,7 +14,7 @@ class MoviesImpl implements IMoviesService {
     try {
       final url = Uri.parse(
           "${Links.base}now_playing?api_key=${Links.key}&${Links.language}&page=$page");
-      final response = await http.get(url).timeout(const Duration(seconds: 3),
+      final response = await http.get(url).timeout(const Duration(seconds: 5),
           onTimeout: () {
         SnackBarCustom.alert('Parece que você esta sem internet');
         throw Exception('timeout');
@@ -36,7 +36,7 @@ class MoviesImpl implements IMoviesService {
     try {
       final url =
           Uri.parse("${Links.base}$id?api_key=${Links.key}&${Links.language}");
-      final response = await http.get(url).timeout(const Duration(seconds: 3),
+      final response = await http.get(url).timeout(const Duration(seconds: 5),
           onTimeout: () {
         SnackBarCustom.alert('Parece que você esta sem internet');
         throw Exception('timeout');
@@ -58,7 +58,7 @@ class MoviesImpl implements IMoviesService {
     try {
       final url = Uri.parse(
           "${Links.base}$id/videos?api_key=${Links.key}&${Links.language}");
-      final response = await http.get(url).timeout(const Duration(seconds: 3),
+      final response = await http.get(url).timeout(const Duration(seconds: 5),
           onTimeout: () {
         SnackBarCustom.alert('Parece que você esta sem internet');
         throw Exception('timeout');
