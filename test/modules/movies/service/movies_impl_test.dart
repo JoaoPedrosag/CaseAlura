@@ -17,9 +17,8 @@ void main() {
   });
 
   test('must return the video with a key', () async {
-    final testGetVideo = response
-        .getVideoMovie(id[0])
-        .then((value) => print(value.results![0].key));
+    final testGetVideo =
+        response.getVideoMovie(id[0]).then((value) => (value.results![0].key));
 
     expect(testGetVideo, isNotNull);
   });
