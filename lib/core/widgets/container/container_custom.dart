@@ -14,7 +14,10 @@ class ContainerCustom extends StatelessWidget {
         height: MediaQuery.of(context).size.height * 0.2,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6),
-          color: Colors.blueGrey[300],
+          border: Border.all(
+            color: Colors.amber,
+            width: 4,
+          ),
         ),
         child: SingleChildScrollView(
           child: Column(

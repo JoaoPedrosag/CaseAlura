@@ -15,24 +15,31 @@ abstract class _DataBaseController with Store {
   @observable
   List ids = [];
 
+  @observable
+  bool empty = false;
+
+  @action
+  void setEmpty(bool value) {
+    empty = value;
+  }
+
   @action
   getAllMovies() async {
     _database = await DB.instance.dataBase;
     movies = await _database.query('movies');
     ids = movies.map((e) => e['idMovie']).toList();
-    print(ids);
+    setEmpty(ids.isEmpty);
   }
 
   @action
   void addNewFavorite(int id) {
     ids.add(id);
-    print(ids);
   }
 
   @action
   void removeFavorite(int id) {
     ids.remove(id);
-    print(ids);
+    ids.isEmpty ? setEmpty(true) : setEmpty(false);
   }
 
   @action
@@ -40,6 +47,7 @@ abstract class _DataBaseController with Store {
     _database = await DB.instance.dataBase;
     await _database
         .delete('movies', where: 'idMovie = ?', whereArgs: [idMovie]);
+    removeFavorite(idMovie);
   }
 
   @action

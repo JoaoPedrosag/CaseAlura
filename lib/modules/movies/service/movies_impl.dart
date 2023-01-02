@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
-
+import 'package:case_alura/core/const/api_utl.dart';
+import 'package:case_alura/core/widgets/snack_custom/snack_bar_custom.dart';
+import 'package:case_alura/modules/movies/model/movie_video_model.dart';
 import 'package:case_alura/modules/movies/model/movies_model.dart';
 import 'package:case_alura/modules/movies/model/only_movie_model.dart';
 import 'package:case_alura/modules/movies/service/i_movies.dart';
@@ -11,12 +13,18 @@ class MoviesImpl implements IMoviesService {
   Future<MoviesTodo> getMovies(int page) async {
     try {
       final url = Uri.parse(
-          "https://api.themoviedb.org/3/movie/now_playing?api_key=983928bb76ee533d2e6b4d52986438eb&language=pt-BR&page=$page");
-      final response = await http.get(url);
+          "${Links.base}now_playing?api_key=${Links.key}&${Links.language}&page=$page");
+      final response = await http.get(url).timeout(const Duration(seconds: 5),
+          onTimeout: () {
+        SnackBarCustom.alert('Parece que você esta sem internet');
+        throw Exception('timeout');
+      });
       if (response.statusCode == 200) {
         return MoviesTodo.fromJson(jsonDecode(response.body));
+      } else {
+        SnackBarCustom.error('Parece que nossos servidores estão desligados');
+        throw Exception('Unable to fetch movies from the REST API');
       }
-      return MoviesTodo(movies: []);
     } on Exception catch (e) {
       log(e.toString());
       throw Exception("Erro ao buscar filmes");
@@ -26,13 +34,41 @@ class MoviesImpl implements IMoviesService {
   @override
   Future<OnyMovieModel> getMovie(int id) async {
     try {
-      final url = Uri.parse(
-          "https://api.themoviedb.org/3/movie/$id?api_key=983928bb76ee533d2e6b4d52986438eb&language=pt-BR");
-      final response = await http.get(url);
+      final url =
+          Uri.parse("${Links.base}$id?api_key=${Links.key}&${Links.language}");
+      final response = await http.get(url).timeout(const Duration(seconds: 5),
+          onTimeout: () {
+        SnackBarCustom.alert('Parece que você esta sem internet');
+        throw Exception('timeout');
+      });
       if (response.statusCode == 200) {
         return OnyMovieModel.fromJson(jsonDecode(response.body));
+      } else {
+        SnackBarCustom.error('Parece que nossos servidores estão desligados');
+        throw Exception('Unable to fetch movies from the REST API');
       }
-      return OnyMovieModel(movie: []);
+    } on Exception catch (e) {
+      log(e.toString());
+      throw Exception("Erro ao buscar filmes");
+    }
+  }
+
+  @override
+  Future<MovieVideo> getVideoMovie(int id) async {
+    try {
+      final url = Uri.parse(
+          "${Links.base}$id/videos?api_key=${Links.key}&${Links.language}");
+      final response = await http.get(url).timeout(const Duration(seconds: 5),
+          onTimeout: () {
+        SnackBarCustom.alert('Parece que você esta sem internet');
+        throw Exception('timeout');
+      });
+      if (response.statusCode == 200) {
+        return MovieVideo.fromJson(jsonDecode(response.body));
+      } else {
+        SnackBarCustom.error('Parece que nossos servidores estão desligados');
+        throw Exception('Unable to fetch movies from the REST API');
+      }
     } on Exception catch (e) {
       log(e.toString());
       throw Exception("Erro ao buscar filmes");

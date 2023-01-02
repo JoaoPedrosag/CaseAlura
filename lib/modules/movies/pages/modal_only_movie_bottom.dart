@@ -1,7 +1,10 @@
 import 'package:case_alura/core/widgets/button/button_custom.dart';
 import 'package:case_alura/core/widgets/circular/circular_progress_custom.dart';
+import 'package:case_alura/core/widgets/snack_custom/snack_bar_custom.dart';
+import 'package:case_alura/core/widgets/text/text_custom.dart';
 import 'package:case_alura/modules/movies/controller/database/data_base_controller.dart';
 import 'package:case_alura/modules/movies/controller/movies_controller.dart';
+import 'package:case_alura/modules/movies/controller/play_video/play_video_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -14,10 +17,11 @@ class ModalBottom extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Modular.get<MoviesController>();
     final dataBase = Modular.get<DataBaseController>();
+    final watch = Modular.get<PlayVideoController>();
     return Observer(
       builder: (_) => SizedBox(
         height: MediaQuery.of(context).size.height * .9,
-        child: controller.loading
+        child: controller.loading || controller.onlyMovieModel.id == null
             ? const Center(
                 child: CircularProgressCustom(),
               )
@@ -25,7 +29,6 @@ class ModalBottom extends StatelessWidget {
                 children: [
                   Container(
                     decoration: const BoxDecoration(
-                      color: Colors.white,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20),
                           topRight: Radius.circular(20)),
@@ -78,6 +81,7 @@ class ModalBottom extends StatelessWidget {
                                       releaseDate: controller
                                           .onlyMovieModel.releaseDate!);
                                 }
+                                dataBase.getAllMovies();
                                 Modular.to.pop();
                               },
                               color: dataBase.ids
@@ -89,67 +93,52 @@ class ModalBottom extends StatelessWidget {
                             const SizedBox(
                               height: 10,
                             ),
-                            Text(
-                              'Título: ${controller.onlyMovieModel.title}',
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * .06,
+                              width: MediaQuery.of(context).size.width * .8,
+                              child: ElevatedButton.icon(
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.white),
+                                ),
+                                onPressed: () async {
+                                  await watch.getVideoMovie(
+                                      controller.onlyMovieModel.id!);
+                                  watch.key.isEmpty
+                                      ? SnackBarCustom.error(
+                                          'Trailer indisponivel')
+                                      : Modular.to.pushNamed('watch');
+                                },
+                                icon: const Icon(Icons.movie_creation_sharp),
+                                label: watch.loadingVideo
+                                    ? const CircularProgressCustom()
+                                    : const Text('Ver Trailer',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        )),
                               ),
                             ),
                             const SizedBox(
                               height: 10,
                             ),
-                            Text(
-                              'Lançamento: ${controller.onlyMovieModel.releaseDate}',
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            RatingBarIndicator(
-                              rating: double.parse(
-                                      controller.onlyMovieModel.voteAverage!) /
-                                  2,
-                              itemBuilder: (context, index) => const Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                              ),
-                              itemCount: 5,
-                              itemSize: 20.0,
-                              direction: Axis.horizontal,
+                            TextCustom(
+                              label:
+                                  'Título: ${controller.onlyMovieModel.title}',
                             ),
                             const SizedBox(
                               height: 10,
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                'Sinopse: ${controller.onlyMovieModel.overview!}',
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              child: TextCustom(
+                                label:
+                                    'Sinopse: ${controller.onlyMovieModel.overview!}',
                               ),
                             ),
                             const SizedBox(
                               height: 5,
-                            ),
-                            Text(
-                              'Duração: ${controller.onlyMovieModel.runtime!} min',
-                              style: const TextStyle(
-                                color: Colors.red,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
                             ),
                             Container(
                               decoration: BoxDecoration(
@@ -175,6 +164,36 @@ class ModalBottom extends StatelessWidget {
                             ),
                             const SizedBox(
                               height: 10,
+                            ),
+                            TextCustom(
+                              label:
+                                  'Lançamento: ${controller.onlyMovieModel.releaseDate}',
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextCustom(
+                              label:
+                                  'Nota do Filme ${controller.onlyMovieModel.voteAverage}',
+                            ),
+                            RatingBarIndicator(
+                              rating: double.parse(
+                                      controller.onlyMovieModel.voteAverage!) /
+                                  2,
+                              itemBuilder: (context, index) => const Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              itemCount: 5,
+                              itemSize: 20.0,
+                              direction: Axis.horizontal,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextCustom(
+                              label:
+                                  'Duração: ${controller.onlyMovieModel.runtime!} min',
                             ),
                             const SizedBox(
                               height: 10,
