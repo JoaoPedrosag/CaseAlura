@@ -13,13 +13,13 @@
 
 - Projeto foi criado com Flutter na versão 3.3.8, versões anteriores provalvemente irão acontencer erros de alguns Widgets depreciated.
 
-- Projeto foi feito e testado para Android, foi habilitado para execução em IOS, caso queira executar em outra plataforma digitar no terminal Exemplo: 'flutter create --platforms=linux . ' OBS: Não esquecer do . para criar na pasta atual.
+- Projeto foi feito e testado para Android, foi habilitado para execução em IOS, caso queira executar em outra plataforma digitar no terminal Exemplo: `flutter create --platforms=linux . ` OBS: Não esquecer do . para criar na pasta atual.
 
 - Para executar os testes, digite no terminal 'flutter test' e aguardar o carregamento dos testes.
 - Para realizacao dos testes do sqflite tive que utilizar outro package chamado sqflite_common_ffi, para conseguir testar no DartVM.
-
-- Para executar o projeto basta digitar no terminal 'flutter run' e aguardar o carregamento do projeto.
-Ou entrar no arquivo main.dart e dar um Run.
+- 
+- Quando abrir o projeto digitar `flutter pub get` no terminal;
+- Clicar no Icone verde e aguardar o carregamento do App. ![image](https://user-images.githubusercontent.com/89108658/210282952-d07e5e79-94d0-4946-9cf8-5a4aa1910432.png).
 
 - Caso queira assistir o trailer e resultar em um erro de trailer indisponivel, significa que o video que não esta retornando da TMDB, indisponivel no momento.
 - Qualquer duvida me acionar, Obrigado desde já ✌️!
