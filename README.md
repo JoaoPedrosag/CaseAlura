@@ -16,6 +16,7 @@
 - Projeto foi feito e testado para Android, foi habilitado para execução em IOS, caso queira executar em outra plataforma digitar no terminal Exemplo: 'flutter create --platforms=linux . ' OBS: Não esquecer do . para criar na pasta atual.
 
 - Para executar os testes, digite no terminal 'flutter test' e aguardar o carregamento dos testes.
+- Para realizacao dos testes do sqflite tive que utilizar outro package chamado sqflite_common_ffi, para conseguir testar no DartVM.
 
 - Para executar o projeto basta digitar no terminal 'flutter run' e aguardar o carregamento do projeto.
 Ou entrar no arquivo main.dart e dar um Run.
