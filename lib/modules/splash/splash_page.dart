@@ -43,7 +43,7 @@ class _SplashPageState extends State<SplashPage> {
               Modular.to.navigate('/home_movies/');
             },
             color: Colors.yellow,
-            width: 300,
+            width: MediaQuery.of(context).size.width * 0.8,
           ),
         ],
       ),
